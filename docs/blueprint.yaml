@@ -1,0 +1,18 @@
+version: "0.3"
+project:
+  name: Untitled App
+  mission: Draft mission (edit in Overview).
+  audience: Who is this for?
+  core_features: ""
+user_stories: []
+architecture:
+  components: []
+  edges: []
+sprints: []
+columns:
+  - id: COL1
+    title: New Column
+    order: 0
+prompt_style:
+  tone: kid-friendly
+  detail_level: step-by-step
