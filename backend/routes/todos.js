@@ -1,13 +1,18 @@
 const express = require('express');
+const Database = require('better-sqlite3');
+const path = require('path');
 const db = require('../db');
 const { authenticateToken } = require('./auth');
 
 const router = express.Router();
 
+// Direct database access for complex queries
+const database = new Database(path.join(__dirname, '..', 'prisma', 'dev.db'));
+
 // Get all todos for authenticated user
 router.get('/', authenticateToken, async (req, res) => {
   try {
-    const todos = await db.todo.findMany({
+    const todos = db.todo.findMany({
       where: {
         authorId: req.user.userId
       },
@@ -39,7 +44,7 @@ router.get('/', authenticateToken, async (req, res) => {
 router.get('/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
-    const todo = await db.todo.findUnique({
+    const todo = db.todo.findUnique({
       where: { 
         id: parseInt(id),
         authorId: req.user.userId
@@ -78,7 +83,7 @@ router.post('/', authenticateToken, async (req, res) => {
       return res.status(400).json({ error: 'Title is required' });
     }
 
-    const todo = await db.todo.create({
+    const todo = db.todo.create({
       data: {
         title,
         description,
@@ -124,7 +129,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
     const { title, description, completed, dueDate } = req.body;
 
     // Check if todo belongs to user
-    const existingTodo = await db.todo.findUnique({
+    const existingTodo = db.todo.findUnique({
       where: { 
         id: parseInt(id),
         authorId: req.user.userId
@@ -135,7 +140,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Todo not found' });
     }
 
-    const todo = await db.todo.update({
+    const todo = db.todo.update({
       where: { id: parseInt(id) },
       data: {
         ...(title !== undefined && { title }),
@@ -170,7 +175,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
 
     // Check if todo belongs to user
-    const existingTodo = await db.todo.findUnique({
+    const existingTodo = db.todo.findUnique({
       where: { 
         id: parseInt(id),
         authorId: req.user.userId
@@ -181,7 +186,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Todo not found' });
     }
 
-    await db.todo.delete({
+    db.todo.delete({
       where: { id: parseInt(id) }
     });
 
@@ -199,7 +204,7 @@ router.put('/subtasks/:id', authenticateToken, async (req, res) => {
     const { title, completed } = req.body;
 
     // Check if subtask belongs to user's todo
-    const subtask = await db.subtask.findUnique({
+    const subtask = db.subtask.findUnique({
       where: { id: parseInt(id) },
       include: {
         todo: true
@@ -210,7 +215,7 @@ router.put('/subtasks/:id', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Subtask not found' });
     }
 
-    const updatedSubtask = await db.subtask.update({
+    const updatedSubtask = db.subtask.update({
       where: { id: parseInt(id) },
       data: {
         ...(title !== undefined && { title }),
@@ -236,7 +241,7 @@ router.post('/:todoId/subtasks', authenticateToken, async (req, res) => {
     }
 
     // Check if todo belongs to user
-    const todo = await db.todo.findUnique({
+    const todo = db.todo.findUnique({
       where: { 
         id: parseInt(todoId),
         authorId: req.user.userId
@@ -247,7 +252,7 @@ router.post('/:todoId/subtasks', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Todo not found' });
     }
 
-    const subtask = await db.subtask.create({
+    const subtask = db.subtask.create({
       data: {
         title,
         todoId: parseInt(todoId)
@@ -272,7 +277,7 @@ router.post('/:todoId/notes', authenticateToken, async (req, res) => {
     }
 
     // Check if todo belongs to user
-    const todo = await db.todo.findUnique({
+    const todo = db.todo.findUnique({
       where: { 
         id: parseInt(todoId),
         authorId: req.user.userId
@@ -283,7 +288,7 @@ router.post('/:todoId/notes', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Todo not found' });
     }
 
-    const note = await db.note.create({
+    const note = db.note.create({
       data: {
         content,
         todoId: parseInt(todoId)
@@ -302,53 +307,46 @@ router.get('/stats/overview', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
 
-    const [totalTodos, completedTodos, totalSubtasks, completedSubtasks] = await Promise.all([
-      db.todo.count({
-        where: { authorId: userId }
-      }),
-      db.todo.count({
-        where: { 
-          authorId: userId,
-          completed: true 
-        }
-      }),
-      db.subtask.count({
-        where: {
-          todo: {
-            authorId: userId
-          }
-        }
-      }),
-      db.subtask.count({
-        where: {
-          completed: true,
-          todo: {
-            authorId: userId
-          }
-        }
-      })
-    ]);
+    const totalTodos = db.todo.count({
+      where: { authorId: userId }
+    });
 
-    const recentlyCompleted = await db.todo.findMany({
-      where: {
+    const completedTodos = db.todo.findMany({
+      where: { 
         authorId: userId,
-        completed: true
-      },
-      orderBy: {
-        updatedAt: 'desc'
-      },
-      take: 5,
-      select: {
-        id: true,
-        title: true,
-        updatedAt: true
+        completed: true 
+      }
+    }).length;
+
+    const allSubtasks = db.subtask.count({
+      where: {
+        todo: {
+          authorId: userId
+        }
       }
     });
+
+    const completedSubtasks = db.subtask.count({
+      where: {
+        completed: true,
+        todo: {
+          authorId: userId
+        }
+      }
+    });
+
+    const recentlyCompletedQuery = database.prepare(`
+      SELECT id, title, updatedAt FROM Todo 
+      WHERE authorId = ? AND completed = 1 
+      ORDER BY updatedAt DESC 
+      LIMIT 5
+    `);
+    const recentlyCompleted = recentlyCompletedQuery.all(userId);
 
     res.json({
       totalTodos,
       completedTodos,
-      totalSubtasks,
+      totalSubtasks: allSubtasks,
       completedSubtasks,
       recentlyCompleted
     });

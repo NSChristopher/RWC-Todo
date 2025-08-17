@@ -1,6 +1,6 @@
-# Full Stack Template
+# Mi Todoes
 
-A complete, production-ready full-stack template featuring React 18, Express.js, Prisma ORM, and JWT authentication. Get your CRUD application up and running in minutes with modern best practices and beautiful UI components.
+A complete todo management application that helps you clear your mind by organizing your tasks, tracking progress, and planning for the future. Built with React 18, Express.js, and JWT authentication.
 
 ## 📦 Tech Stack
 
@@ -10,22 +10,22 @@ A complete, production-ready full-stack template featuring React 18, Express.js,
 | **Styling**         | Tailwind CSS + ShadCN UI         | Utility-first CSS with beautiful components |
 | **Icons & UI**      | Lucide React + Sonner            | Icons and toast notifications               |
 | **Backend**         | Express.js + Node.js             | RESTful API server                          |
-| **Database**        | SQLite + Prisma ORM              | Type-safe database access                   |
+| **Database**        | SQLite + Better-SQLite3           | Local database with ORM-like interface     |
 | **Auth**            | JWT + HTTP-only Cookies          | Secure authentication flow                  |
 | **API Client**      | Axios                            | HTTP client with interceptors               |
 | **Dev Environment** | GitHub Codespaces + Devcontainer | Consistent development environment          |
 
 ## ✨ Features
 
-- 🔐 **Complete Authentication**: Register, login, logout with JWT
-- 📝 **CRUD Operations**: Full create, read, update, delete for posts
-- 🎨 **Beautiful UI**: Tailwind CSS with ShadCN components
-- 🔒 **Protected Routes**: Both frontend and backend route protection
-- 📱 **Responsive Design**: Mobile-first approach
+- 📝 **Create & Organize Todos**: Create todos with optional due dates, add subtasks, and include notes
+- 📅 **Calendar View**: See your todos on a calendar to plan your time and never miss deadlines  
+- 📊 **Progress Tracking**: Stay motivated with a dashboard that shows completed todos and productivity stats
+- ✅ **Check Off Tasks**: Mark todos and subtasks as complete to track your progress
+- 👤 **User Accounts**: Secure authentication with personal todo lists
+- 📱 **Responsive Design**: Works great on desktop and mobile devices
 - 🚀 **Fast Development**: Hot reload for both frontend and backend
 - 🛡️ **Type Safety**: Full TypeScript support
 - 🍞 **Toast Notifications**: User feedback with Sonner
-- 🎯 **Modern Icons**: Lucide React icon library
 
 ## 🚀 Quick Start
 
