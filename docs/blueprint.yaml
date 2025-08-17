@@ -1,17 +1,82 @@
 version: "0.3"
 project:
-  name: Untitled App
-  mission: Draft mission (edit in Overview).
-  audience: Who is this for?
-  core_features: ""
-user_stories: []
+  name: Mi Todoes
+  mission: Help people clear their mind but saving their to-dos for later. track their progress and plan for the future.
+  audience: "anyone trying to get more done by staying organized and tracking their tasks "
+  core_features: |-
+    - To-do list that can be checked off, scheduled for the future, create sub tasks notes etc.
+    - view the To-do list as a list or a calendar.
+user_stories:
+  - id: US1
+    as: User
+    want: Create to-dos / tasks to be completed at a fixed date or anytime
+    so_that: I can keep track of what I need to do.
+    acceptance_criteria:
+      - description: Be able to create a to-do
+        completed: false
+      - description: optionally set a future date
+        completed: false
+      - description: create sub tasks
+        completed: false
+      - description: add notes to the to-dos
+        completed: false
+    component_ids: []
+    column_id: COL1
+  - id: US2
+    as: User
+    want: to be able to check off Todos and sub tasks
+    so_that: I can mark my work as done.
+    acceptance_criteria:
+      - description: be able to check off tasks and sub tasks
+        completed: false
+    component_ids: []
+    column_id: COL1
+  - id: US3
+    as: User
+    want: to be able to see my completed tasks
+    so_that: I can feel like I'm making progress
+    acceptance_criteria:
+      - description: Have a motivating dashboard highlighting all the work I completed
+        completed: false
+    component_ids: []
+    column_id: COL1
+  - id: US4
+    as: User
+    want: to be able to view my to-dos on a calendar
+    so_that: I can see what's coming up for me to do.
+    acceptance_criteria:
+      - description: view to-dos as a Calander
+        completed: false
+    component_ids: []
+    column_id: COL1
 architecture:
-  components: []
+  components:
+    - id: EJNJ
+      name: Express.js + Node.js
+      role: backend
+      children: []
+      layout:
+        x: 781.7812510499734
+        y: 57.48789962273352
+    - id: R1TV
+      name: React Vite
+      role: frontend
+      children: []
+      layout:
+        x: 344.23107343986965
+        y: 62.204231349937004
+    - id: SPO
+      name: SQLite + Prisma ORM
+      role: backend
+      children: []
+      layout:
+        x: 666.1700834013301
+        y: 288.7170069941729
   edges: []
 sprints: []
 columns:
   - id: COL1
-    title: New Column
+    title: Users
     order: 0
 prompt_style:
   tone: kid-friendly
