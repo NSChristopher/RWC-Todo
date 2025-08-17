@@ -232,7 +232,11 @@ sprints:
       - US5
       - US4
       - US2
-    stage_gates: []
+    stage_gates:
+      - description: Create an updated Readme.
+        completed: false
+    description: Create an MVP app by completing all user stories. create all the ui services and database tables needed to implement the user stories. the repo is currently a template repo that has all of the main parent node frameworks implemented.
+    issue_url: https://github.com/NSChristopher/RWC-Todo/issues/1
 columns:
   - id: COL1
     title: Users
