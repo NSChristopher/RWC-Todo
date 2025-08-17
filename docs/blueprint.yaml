@@ -20,7 +20,13 @@ user_stories:
         completed: false
       - description: add notes to the to-dos
         completed: false
-    component_ids: []
+    component_ids:
+      - NC2
+      - NC5
+      - NC7
+      - EAPI
+      - ETASK
+      - DTODO
     column_id: COL1
   - id: US2
     as: User
@@ -29,7 +35,12 @@ user_stories:
     acceptance_criteria:
       - description: be able to check off tasks and sub tasks
         completed: false
-    component_ids: []
+    component_ids:
+      - NC2
+      - NC7
+      - EAPI
+      - ETASK
+      - DTODO
     column_id: COL1
   - id: US3
     as: User
@@ -38,7 +49,12 @@ user_stories:
     acceptance_criteria:
       - description: Have a motivating dashboard highlighting all the work I completed
         completed: false
-    component_ids: []
+    component_ids:
+      - NC4
+      - NC7
+      - EAPI
+      - ESTATS
+      - DTODO
     column_id: COL1
   - id: US4
     as: User
@@ -47,33 +63,176 @@ user_stories:
     acceptance_criteria:
       - description: view to-dos as a Calander
         completed: false
-    component_ids: []
+    component_ids:
+      - NC3
+      - NC7
+      - EAPI
+      - ETASK
+      - DTODO
+    column_id: COL1
+  - id: US5
+    as: User
+    want: to be able to create an account
+    so_that: I can save my progress
+    acceptance_criteria:
+      - description: can register login and signout
+        completed: false
+      - description: Have my progress auto saved
+        completed: false
+    component_ids:
+      - NC
+      - NC6
+      - NC7
+      - EAPI
+      - EAUTH
+      - DUSER
+      - DSESS
     column_id: COL1
 architecture:
   components:
     - id: EJNJ
       name: Express.js + Node.js
       role: backend
-      children: []
+      children:
+        - id: EAPI
+          name: APIRouter (REST)
+          role: service
+          children: []
+        - id: EAUTH
+          name: AuthService (sessions, OAuth-ready)
+          role: service
+          children: []
+        - id: ETASK
+          name: TaskService (todos/subtasks/notes)
+          role: service
+          children: []
+        - id: ESTATS
+          name: StatsService (completed/progress)
+          role: service
+          children: []
       layout:
-        x: 781.7812510499734
-        y: 57.48789962273352
+        x: 741.0592597729111
+        y: 35.97880646415001
     - id: R1TV
       name: React Vite
       role: frontend
-      children: []
+      children:
+        - id: NC
+          name: LoginPage
+          role: ui
+          children: []
+        - id: NC2
+          name: TodoListPage
+          role: ui
+          children: []
+        - id: NC3
+          name: CalendarPage
+          role: ui
+          children: []
+        - id: NC4
+          name: DashboardPage
+          role: ui
+          children: []
+        - id: NC5
+          name: TaskEditor
+          role: ui
+          children: []
+        - id: NC6
+          name: AuthGuard (route wrapper)
+          role: service
+          children: []
+        - id: NC7
+          name: ApiClient (fetch/Zod)
+          role: service
+          children: []
       layout:
-        x: 344.23107343986965
-        y: 62.204231349937004
+        x: 246.97256105615634
+        y: 3.5603579522684754
     - id: SPO
       name: SQLite + Prisma ORM
-      role: backend
-      children: []
+      role: database
+      children:
+        - id: DUSER
+          name: users (id, email, name)
+          role: data
+          children: []
+        - id: DSESS
+          name: sessions (token, user_id, expires)
+          role: data
+          children: []
+        - id: DTODO
+          name: todos/subtasks/notes (task core)
+          role: data
+          children: []
       layout:
-        x: 666.1700834013301
-        y: 288.7170069941729
-  edges: []
-sprints: []
+        x: 1269.0020301235807
+        y: 55.07122036306504
+  edges:
+    - type: calls
+      source: NC
+      target: NC6
+    - type: calls
+      source: NC
+      target: NC7
+    - type: calls
+      source: NC2
+      target: NC7
+    - type: calls
+      source: NC3
+      target: NC7
+    - type: calls
+      source: NC4
+      target: NC7
+    - type: calls
+      source: NC5
+      target: NC7
+    - type: calls
+      source: NC6
+      target: NC7
+    - type: calls
+      source: NC7
+      target: EAPI
+    - type: calls
+      source: EAPI
+      target: EAUTH
+    - type: calls
+      source: EAPI
+      target: ETASK
+    - type: calls
+      source: EAPI
+      target: ESTATS
+    - type: reads
+      source: EAUTH
+      target: DUSER
+    - type: writes
+      source: EAUTH
+      target: DUSER
+    - type: reads
+      source: EAUTH
+      target: DSESS
+    - type: writes
+      source: EAUTH
+      target: DSESS
+    - type: reads
+      source: ETASK
+      target: DTODO
+    - type: writes
+      source: ETASK
+      target: DTODO
+    - type: reads
+      source: ESTATS
+      target: DTODO
+sprints:
+  - id: 1
+    name: Sprint 1
+    color: "#0ea5e9"
+    user_story_ids:
+      - US1
+      - US3
+      - US5
+      - US4
+      - US2
+    stage_gates: []
 columns:
   - id: COL1
     title: Users
