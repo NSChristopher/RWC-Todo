@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Checkbox } from '@/components/ui/checkbox';
 import { useAuth } from '@/hooks/useAuth';
 import { useTodos } from '@/hooks/useTodos';
-import { Todo, Subtask, Note } from '@/types';
+import { Todo, Subtask } from '@/types';
 import { Plus, Edit, Trash2, LogOut, User, Calendar, Home, BarChart3, Check, X } from 'lucide-react';
 
 const TodoListPage = () => {

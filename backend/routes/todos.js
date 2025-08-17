@@ -78,7 +78,7 @@ router.post('/', authenticateToken, async (req, res) => {
       data: {
         title,
         description,
-        dueDate: dueDate ? new Date(dueDate) : null,
+        dueDate: dueDate || null,
         userId: req.user.userId
       },
       include: {
@@ -121,7 +121,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
     const updateData = {};
     if (title !== undefined) updateData.title = title;
     if (description !== undefined) updateData.description = description;
-    if (dueDate !== undefined) updateData.dueDate = dueDate ? new Date(dueDate) : null;
+    if (dueDate !== undefined) updateData.dueDate = dueDate || null;
     if (completed !== undefined) updateData.completed = completed;
 
     const todo = await db.todo.update({
