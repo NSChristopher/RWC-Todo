@@ -13,13 +13,13 @@ user_stories:
     so_that: I can keep track of what I need to do.
     acceptance_criteria:
       - description: Be able to create a to-do
-        completed: false
+        completed: true
       - description: optionally set a future date
-        completed: false
+        completed: true
       - description: create sub tasks
-        completed: false
+        completed: true
       - description: add notes to the to-dos
-        completed: false
+        completed: true
     component_ids:
       - NC2
       - NC5
@@ -34,7 +34,7 @@ user_stories:
     so_that: I can mark my work as done.
     acceptance_criteria:
       - description: be able to check off tasks and sub tasks
-        completed: false
+        completed: true
     component_ids:
       - NC2
       - NC7
@@ -48,7 +48,7 @@ user_stories:
     so_that: I can feel like I'm making progress
     acceptance_criteria:
       - description: Have a motivating dashboard highlighting all the work I completed
-        completed: false
+        completed: true
     component_ids:
       - NC4
       - NC7
@@ -62,7 +62,7 @@ user_stories:
     so_that: I can see what's coming up for me to do.
     acceptance_criteria:
       - description: view to-dos as a Calander
-        completed: false
+        completed: true
     component_ids:
       - NC3
       - NC7
@@ -76,9 +76,9 @@ user_stories:
     so_that: I can save my progress
     acceptance_criteria:
       - description: can register login and signout
-        completed: false
+        completed: true
       - description: Have my progress auto saved
-        completed: false
+        completed: true
     component_ids:
       - NC
       - NC6
@@ -234,7 +234,7 @@ sprints:
       - US2
     stage_gates:
       - description: Create an updated Readme.
-        completed: false
+        completed: true
     description: Create an MVP app by completing all user stories. create all the ui services and database tables needed to implement the user stories. the repo is currently a template repo that has all of the main parent node frameworks implemented.
     issue_url: https://github.com/NSChristopher/RWC-Todo/issues/1
 columns:

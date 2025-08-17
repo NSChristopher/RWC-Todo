@@ -5,7 +5,9 @@ import { AuthProvider, useAuth } from './hooks/useAuth';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
+import DashboardPage from './pages/DashboardPage';
+import TodoListPage from './pages/TodoListPage';
+import CalendarPage from './pages/CalendarPage';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -40,7 +42,7 @@ const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     );
   }
 
-  return user ? <Navigate to="/dashboard" replace /> : <>{children}</>;
+  return user ? <Navigate to="/todos" replace /> : <>{children}</>;
 };
 
 function App() {
@@ -67,10 +69,26 @@ function App() {
               } 
             />
             <Route 
+              path="/todos" 
+              element={
+                <ProtectedRoute>
+                  <TodoListPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
               path="/dashboard" 
               element={
                 <ProtectedRoute>
-                  <Dashboard />
+                  <DashboardPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/calendar" 
+              element={
+                <ProtectedRoute>
+                  <CalendarPage />
                 </ProtectedRoute>
               } 
             />
