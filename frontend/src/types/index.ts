@@ -5,13 +5,35 @@ export interface User {
   createdAt?: string;
 }
 
-export interface Post {
+export interface Todo {
   id: number;
   title: string;
-  content?: string;
-  published: boolean;
-  authorId: number;
-  author: User;
+  description?: string;
+  dueDate?: string;
+  completed: boolean;
+  userId: number;
+  user?: User;
+  subtasks?: Subtask[];
+  notes?: Note[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Subtask {
+  id: number;
+  title: string;
+  completed: boolean;
+  todoId: number;
+  todo?: Todo;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Note {
+  id: number;
+  content: string;
+  todoId: number;
+  todo?: Todo;
   createdAt: string;
   updatedAt: string;
 }
@@ -21,14 +43,38 @@ export interface AuthResponse {
   user: User;
 }
 
-export interface CreatePostData {
+export interface CreateTodoData {
   title: string;
-  content?: string;
-  published?: boolean;
+  description?: string;
+  dueDate?: string;
 }
 
-export interface UpdatePostData {
+export interface UpdateTodoData {
   title?: string;
-  content?: string;
-  published?: boolean;
+  description?: string;
+  dueDate?: string;
+  completed?: boolean;
+}
+
+export interface CreateSubtaskData {
+  title: string;
+  todoId: number;
+}
+
+export interface UpdateSubtaskData {
+  title?: string;
+  completed?: boolean;
+}
+
+export interface CreateNoteData {
+  content: string;
+  todoId: number;
+}
+
+export interface TodoStats {
+  totalTodos: number;
+  completedTodos: number;
+  totalSubtasks: number;
+  completedSubtasks: number;
+  completionRate: number;
 }
